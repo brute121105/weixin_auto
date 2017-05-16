@@ -45,6 +45,17 @@ public class AutoUtil {
             performClick(nodeInfo.getParent(),record,recordAction);
         }
     }
+    //执行点击、记录下次操作、并打印日志
+    public static void performClickAndExpect(AccessibilityNodeInfo nodeInfo,Map<String,String> record, String recordAction
+            ,AccessibilityService context,AccessibilityNodeInfo rootNode,String id,String text) {
+        performClick(nodeInfo,record,recordAction);
+        if(rootNode==null) return;
+        rootNode = context.getRootInActiveWindow();
+        if(id!=null&&text!=null){
+
+        }
+
+    }
     //通过文本查找节点
     public static AccessibilityNodeInfo findNodeInfosByText(AccessibilityNodeInfo nodeInfo, String text) {
         if(nodeInfo==null) return null;

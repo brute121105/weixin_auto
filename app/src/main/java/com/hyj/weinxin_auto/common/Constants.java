@@ -29,4 +29,8 @@ public class Constants {
 
     public static final String MSG_FROM_NAME="杰";
 
+    public static final String CONTROL_AUTO_CHAT="IS_AUTO_CHAT";
+    public static final String CONTROL_AUTO_LOGIN="IS_AUTO_LOGIN";
+    public static final String CONTROL_AUTO_SENDFRMSG="IS_AUTO_SENDFRMSG";
+
 }
