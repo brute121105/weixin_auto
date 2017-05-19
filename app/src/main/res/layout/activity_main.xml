@@ -11,12 +11,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hyj.weinxin_auto.MainActivity">
 
-
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <CheckBox
         android:id="@+id/auto_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:text="自动登录"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/login_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="配置账号"
+        android:textSize="30sp"
+        android:textAlignment="center" />
+</LinearLayout>
+
+    <CheckBox
+        android:id="@+id/auto_AddFr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自动加好友"
         android:textSize="30sp" />
 
     <CheckBox
@@ -31,5 +52,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="自动发朋友圈"
+        android:textSize="30sp" />
+    <CheckBox
+        android:id="@+id/auto_fetchData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自动抓取朋友圈数据"
         android:textSize="30sp" />
 </LinearLayout>

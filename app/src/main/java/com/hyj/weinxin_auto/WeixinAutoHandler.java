@@ -14,8 +14,15 @@ public class WeixinAutoHandler {
     public static WeixinAutoHandler getInstance(){
         return weixinAutoHandler;
     }
+    //自动登录
     public static boolean IS_AUTO_LOGIN=false;
+    //自动聊天
     public static boolean IS_AUTO_CHAT=false;
+    //自动发朋友圈
     public static boolean IS_AUTO_SENDFRMSG=false;
+    //自动添加好友
     public static boolean IS_AUTO_ADDFR=false;
+    //自动抓取朋友圈信息
+    public static boolean IS_AUTO_FETCHDATA=false;
+
 }

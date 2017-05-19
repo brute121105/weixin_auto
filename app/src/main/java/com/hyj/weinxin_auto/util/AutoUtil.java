@@ -6,6 +6,9 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.hyj.weinxin_auto.common.Constants;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +25,23 @@ public class AutoUtil {
             e.printStackTrace();
         }
     }
+    public static void performSetText(AccessibilityNodeInfo nodeInfo,String text,Map<String,String> record,String recordAction){
+        if(nodeInfo == null) return;
+        if(nodeInfo.isEditable()){
+            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT,createBuddleText(text));
+        }else{
+            performSetText(nodeInfo.getParent(),text,record,recordAction);
+        }
+        recordAndLog(record,recordAction);
+    }
     //执行点击、记录下次操作、并打印日志、休眠
     public static void performClick(AccessibilityNodeInfo nodeInfo,Map<String,String> record, String recordAction, long ms) {
         if(nodeInfo == null)  return;
         if(nodeInfo.isClickable()) {
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            record.put("recordAction",recordAction);
-            System.out.println("------>"+record);
+            recordAndLog(record,recordAction);
+            //record.put("recordAction",recordAction);
+            //System.out.println("------>"+record);
             sleep(ms);
         } else {
             performClick(nodeInfo.getParent(),record,recordAction,ms);
@@ -39,8 +52,9 @@ public class AutoUtil {
         if(nodeInfo == null)  return;
         if(nodeInfo.isClickable()) {
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            record.put("recordAction",recordAction);
-            System.out.println("------>"+record);
+            recordAndLog(record,recordAction);
+            //record.put("recordAction",recordAction);
+            //System.out.println("------>"+record);
         } else {
             performClick(nodeInfo.getParent(),record,recordAction);
         }
@@ -74,12 +88,14 @@ public class AutoUtil {
     public static void performBack(AccessibilityService service,Map<String,String> record, String recordAction) {
         if(service == null)  return;
         service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
-        record.put("recordAction",recordAction);
-        System.out.println("------>"+record);
+        recordAndLog(record,recordAction);
+        //record.put("recordAction",recordAction);
+        //System.out.println("------>"+record);
     }
     //根据id和text查找节点
     public static AccessibilityNodeInfo fineNodeByIdAndText(AccessibilityNodeInfo nodeInfo,String id,String text){
         AccessibilityNodeInfo result = null;
+        if(nodeInfo==null) return result;
         List<AccessibilityNodeInfo> nodes = nodeInfo.findAccessibilityNodeInfosByViewId(id);
         if(nodes == null || nodes.isEmpty()) return result;
         for(AccessibilityNodeInfo node:nodes){
@@ -89,6 +105,29 @@ public class AutoUtil {
                 break;
             }
         }
+        return result;
+    }
+    //根据id和text查找节点,并确认是否获取到，此方法用于当前窗口发生变化
+    public static AccessibilityNodeInfo fineNodeByIdAndTextCheck(AccessibilityNodeInfo node,String id,String text,
+                                             AccessibilityService context,Map<String,String> record, String recordAction){
+        AccessibilityNodeInfo result = null;
+        int count=0;
+        while (count<6){
+            node = context.getRootInActiveWindow();
+            if(text==null){
+                result = findNodeInfosById(node,id);
+            }else if(id==null){
+                result = findNodeInfosByText(node,text);
+            }else{
+                result = fineNodeByIdAndText(node,id,text);
+            }
+            if(result!=null)
+                break;
+            count = count +1;
+            sleep(500*count);
+        }
+        if(result==null)
+            recordAndLog(record,recordAction);
         return result;
     }
     //获取聊天窗口内容
@@ -116,7 +155,27 @@ public class AutoUtil {
     //返回执行状态并打印日志
     public static void recordAndLog(Map<String,String> record, String recordAction){
         record.put("recordAction",recordAction);
-        System.out.println("------>"+record);
+        LogUtil.d("recordAndLog",recordAction);
+    }
+    //核对状态
+    public static boolean checkAction(Map<String,String> record, String recordAction){
+        if(recordAction.equals(record.get("recordAction")))
+            return true;
+        return false;
+    }
+
+    public static void  execShell(String cmd){
+        try {
+            Process process  = Runtime.getRuntime().exec("su");
+            OutputStream outputStream = process.getOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+            dataOutputStream.writeBytes(cmd);
+            dataOutputStream.flush();
+            dataOutputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
