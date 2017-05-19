@@ -5,6 +5,8 @@ package com.hyj.weinxin_auto.common;
  */
 
 public class Constants {
+    public static final String CHAT_LISTENING="初始化监听";
+
     public static final String LOGIN_ACTION_01="LOGIN_退出当前账号";
     public static final String LOGIN_ACTION_02="LOGIN_确认退出";
     public static final String LOGIN_ACTION_03="LOGIN_更多";
@@ -14,7 +16,14 @@ public class Constants {
     public static final String LOGIN_ACTION_07="LOGIN_输入密码";
     public static final String LOGIN_ACTION_08="LOGIN_点击[登录]";
 
-    public static final String CHAT_LISTENING="初始化监听";
+    public static final String AddFR_ACTION_01="点击[通讯录]页签中[新的朋友]";
+    public static final String AddFR_ACTION_02="点击[微信号/QQ号/手机号]输入框";
+    public static final String AddFR_ACTION_03="输入微信号码";
+    public static final String AddFR_ACTION_04="点击搜索";
+    public static final String AddFR_ACTION_05="点击[添加到通讯录]";
+    public static final String AddFR_ACTION_06="点击[发送]按钮";
+    public static final String AddFR_ACTION_07="返回上一步继续添加";
+    public static final String AddFR_ACTION_08="继续下一个搜索";
 
     public static final String CHAT_ACTION_01="收到消息";
     public static final String CHAT_ACTION_02="收到消息-打开消息";

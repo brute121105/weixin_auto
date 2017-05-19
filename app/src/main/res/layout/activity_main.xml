@@ -33,12 +33,34 @@
         android:textAlignment="center" />
 </LinearLayout>
 
-    <CheckBox
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/auto_AddFr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="自动加好友"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/wxid_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="设置"
+            android:textSize="30sp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+ <!--   <CheckBox
         android:id="@+id/auto_AddFr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="自动加好友"
-        android:textSize="30sp" />
+        android:textSize="30sp" />-->
 
     <CheckBox
         android:id="@+id/auto_chat"

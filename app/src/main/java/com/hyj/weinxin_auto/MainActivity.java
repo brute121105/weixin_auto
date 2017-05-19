@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.hyj.weinxin_auto.activity.AccountSetActivity;
+import com.hyj.weinxin_auto.activity.WxidSetActivity;
 import com.hyj.weinxin_auto.util.GetPermissionUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         CheckBox autoFetchData = (CheckBox)this.findViewById(R.id.auto_fetchData);
         CheckBox autoAddFr = (CheckBox)this.findViewById(R.id.auto_AddFr);
         Button accountSetBtn = (Button)this.findViewById(R.id.login_set);
+        Button wxidSetBtn = (Button)this.findViewById(R.id.wxid_set);
+        wxidSetBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent account = new Intent(MainActivity.this, WxidSetActivity.class);
+                startActivity(account);
+            }
+        });
         accountSetBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

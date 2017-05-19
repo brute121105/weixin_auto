@@ -33,7 +33,8 @@
                 android:resource="@xml/envelope_service_config" />
         </service>
 
-        <activity android:name=".activity.AccountSetActivity"></activity>
+        <activity android:name=".activity.AccountSetActivity" />
+        <activity android:name=".activity.WxidSetActivity"></activity>
     </application>
 
 </manifest>

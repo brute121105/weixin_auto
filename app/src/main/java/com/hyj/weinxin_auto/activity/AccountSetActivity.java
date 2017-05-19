@@ -80,6 +80,7 @@ public class AccountSetActivity extends AppCompatActivity {
                 shPrefEdit.putString("pwd4",p4);
                 shPrefEdit.commit();
                 Toast.makeText(GlobalApplication.getContext(),"保存成功",Toast.LENGTH_SHORT);
+                //shPref.getString("username1","");
             }
         });
         back.setOnClickListener(new View.OnClickListener() {

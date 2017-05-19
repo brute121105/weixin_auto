@@ -13,6 +13,9 @@ public class GlobalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        //程序崩溃错误捕捉
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context);
     }
 
     public static Context getContext(){
