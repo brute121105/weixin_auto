@@ -29,10 +29,10 @@ public class AutoUtil {
         if(nodeInfo == null) return;
         if(nodeInfo.isEditable()){
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT,createBuddleText(text));
+            recordAndLog(record,recordAction);
         }else{
             performSetText(nodeInfo.getParent(),text,record,recordAction);
         }
-        recordAndLog(record,recordAction);
     }
     //执行点击、记录下次操作、并打印日志、休眠
     public static void performClick(AccessibilityNodeInfo nodeInfo,Map<String,String> record, String recordAction, long ms) {
@@ -53,8 +53,6 @@ public class AutoUtil {
         if(nodeInfo.isClickable()) {
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
             recordAndLog(record,recordAction);
-            //record.put("recordAction",recordAction);
-            //System.out.println("------>"+record);
         } else {
             performClick(nodeInfo.getParent(),record,recordAction);
         }

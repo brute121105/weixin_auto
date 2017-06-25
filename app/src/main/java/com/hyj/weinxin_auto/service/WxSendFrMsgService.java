@@ -30,13 +30,14 @@ public class WxSendFrMsgService {
     //Map<String,String> record = new HashMap<String,String>();
     public void autoSendFrMsg(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo,WeixinAutoService context,Map<String,String> record){
         int eventType = event.getEventType();
-        if(nodeInfo==null||!record.get("recordAction").contains("SENDFR_")) return;
+        //if(nodeInfo==null||!record.get("recordAction").contains("SENDFR_")) return;
+        if(nodeInfo==null) return;
         System.out.println(record+"node-->eventType"+ eventType);
         List<AccessibilityNodeInfo> wxWdn = nodeInfo.findAccessibilityNodeInfosByText("微信");
         if(wxWdn!=null){
             AccessibilityNodeInfo findBtn = AutoUtil.findNodeInfosByText(nodeInfo,"发现");
             //1、点击发现
-            if(findBtn!=null&&(record.get("recordAction").equals(Constants.CHAT_ACTION_FORWD)||Constants.SENDFR_ACTION_07.equals(record.get("recordAction")))){
+            if(findBtn!=null&&record.get("recordAction").equals(Constants.CHAT_LISTENING)){
                 AutoUtil.performClick(findBtn,record, Constants.SENDFR_ACTION_01);
             }
             //2、点击朋友圈
@@ -88,8 +89,7 @@ public class WxSendFrMsgService {
                 System.out.println("-------->进入进入进入");
                 inputMsg.get(0).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT,AutoUtil.createBuddleText(record.get("rMsg")));
                 AutoUtil.performClick(sendMsgBtn.get(0),record,Constants.SENDFR_ACTION_07,1000);
-                AutoUtil.performBack(context,record,Constants.SENDFR_ACTION_08);
-                //AutoUtil.recordAndLog(record,Constants.SENDFR_ACTION_08);
+                //AutoUtil.performBack(context,record,Constants.SENDFR_ACTION_08);
                 AutoUtil.recordAndLog(record,Constants.CHAT_LISTENING);
             }
         }

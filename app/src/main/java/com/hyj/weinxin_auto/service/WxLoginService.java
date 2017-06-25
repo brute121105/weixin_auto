@@ -10,6 +10,7 @@ import com.hyj.weinxin_auto.GlobalApplication;
 import com.hyj.weinxin_auto.WeixinAutoService;
 import com.hyj.weinxin_auto.common.Constants;
 import com.hyj.weinxin_auto.util.AutoUtil;
+import com.hyj.weinxin_auto.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,48 +32,58 @@ public class WxLoginService {
     public void autoLogin(AccessibilityEvent event, AccessibilityNodeInfo nodeInfo, WeixinAutoService context, Map<String,String> record){
         List<String[]> accounts = this.getAccount();
         int eventType = event.getEventType();
-        if(nodeInfo==null) return;
+        if(nodeInfo==null){
+            LogUtil.d("autoFetchFrData","node 为空；");
+            return;
+        }
         //1、退出当前账号
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_08)||AutoUtil.checkAction(record,Constants.CHAT_LISTENING)){
-            AccessibilityNodeInfo exitCurrentAcountBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bds");
+            AccessibilityNodeInfo exitCurrentAcountBtn = AutoUtil.findNodeInfosByText(nodeInfo,"退出当前帐号");
             AutoUtil.performClick(exitCurrentAcountBtn,record,Constants.LOGIN_ACTION_01,500);
+            return;
         }
         //2、确认退出
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_01)){
-            AccessibilityNodeInfo quiteConfirmBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/abz");
+            AccessibilityNodeInfo quiteConfirmBtn = nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/bu8").get(0).getChild(1);
+            //AccessibilityNodeInfo quiteConfirmBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bu8");
             AutoUtil.performClick(quiteConfirmBtn,record,Constants.LOGIN_ACTION_02);
+            return;
         }
         //3、更多
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_02)){
-            AccessibilityNodeInfo moreBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bdm");
+            AccessibilityNodeInfo moreBtn = AutoUtil.findNodeInfosByText(nodeInfo,"更多");
             AutoUtil.performClick(moreBtn,record,Constants.LOGIN_ACTION_03,500);
+            return;
         }
         //4、切换账号
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_03)){
-            List<AccessibilityNodeInfo> changeAccount =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/alf");
+            List<AccessibilityNodeInfo> changeAccount =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/amv");
             if(changeAccount!=null&&changeAccount.size()>0){
                 AutoUtil.performClick(changeAccount.get(0).getChild(0),record,Constants.LOGIN_ACTION_04);
             }
+            return;
         }
         //5、使用其他方式登录
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_04)){
             AccessibilityNodeInfo changeLoginWayBtn = AutoUtil.findNodeInfosByText(nodeInfo,"使用其他方式登录");
             AutoUtil.performClick(changeLoginWayBtn,record,Constants.LOGIN_ACTION_05,500);
+            return;
         }
         //6、输入账号、密码、点击登录
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_05)){
-            List<AccessibilityNodeInfo> loginNode =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/gr");
-            if(loginNode!=null&&loginNode.size()==2){
-                AutoUtil.performSetText(loginNode.get(0),accounts.get(accountIndex)[0],record,Constants.LOGIN_ACTION_06);
-                AutoUtil.sleep(500);
-                AutoUtil.performSetText(loginNode.get(1),accounts.get(accountIndex)[1],record,Constants.LOGIN_ACTION_07);
-                AccessibilityNodeInfo loginBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bd4");
-                if(loginBtn!=null){
-                    AutoUtil.performClick(loginBtn,record,Constants.LOGIN_ACTION_08);
-                    accountIndex = accountIndex+1;
-                    AutoUtil.recordAndLog(record,Constants.CHAT_LISTENING);
-                }
+            List<AccessibilityNodeInfo> userNode =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/bfm");
+            if(userNode!=null&&userNode.size()==1){
+                AutoUtil.performSetText(userNode.get(0).getChild(1),accounts.get(accountIndex)[0],record,Constants.LOGIN_ACTION_06);
             }
+            List<AccessibilityNodeInfo> pwdNode =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/bfn");
+            if(pwdNode!=null&&pwdNode.size()==1){
+                AutoUtil.performSetText(pwdNode.get(0).getChild(1),accounts.get(accountIndex)[1],record,Constants.LOGIN_ACTION_07);
+            }
+            AutoUtil.sleep(500);
+            AccessibilityNodeInfo loginBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bfo");
+            AutoUtil.performClick(loginBtn,record,Constants.LOGIN_ACTION_08);
+            accountIndex = accountIndex+1;
+            AutoUtil.recordAndLog(record,Constants.CHAT_LISTENING);
         }
     }
     //读取配置账号

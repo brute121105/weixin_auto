@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.alibaba.fastjson.JSON;
 import com.hyj.weinxin_auto.WeixinAutoService;
 import com.hyj.weinxin_auto.util.AutoUtil;
 import com.hyj.weinxin_auto.util.LogUtil;
@@ -28,21 +29,18 @@ import java.util.Set;
  */
 
 public class WxFetchFrDataService {
-    //String recordAction="";
-    //Map<String,String> record = new HashMap<String,String>();
     List<String> strs = new ArrayList<String>();
     public void autoFetchFrData(AccessibilityEvent event, AccessibilityNodeInfo node,WeixinAutoService context,Map<String,String> record){
-        //if(node==null||!record.get("recordAction").equals(Constants.CHAT_LISTENING)) return;
-        int eventType = event.getEventType();
         if(node==null){
             LogUtil.d("autoFetchFrData","node 为空；");
+            node = context.getRootInActiveWindow();
             return;
         }
         Set<String> set = new HashSet<String>();
-        if(node.getChildCount()>0){
+        //if(node.getChildCount()>0){
             List<AccessibilityNodeInfo> items = new ArrayList<AccessibilityNodeInfo>();
-            List<AccessibilityNodeInfo> items0 = node.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/lr");
-            List<AccessibilityNodeInfo> items1 = node.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/b4e");
+            List<AccessibilityNodeInfo> items0 = node.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/b66");
+            List<AccessibilityNodeInfo> items1 = node.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/mo");
             if(items0==null&&items1==null){ LogUtil.d("autoFetchFrData","列表数据为空");return;}
             items.addAll(items0);
             items.addAll(items1);
@@ -57,12 +55,10 @@ public class WxFetchFrDataService {
                     }
                 }
             }
-        }
-        //save(set);
+       // }
         int waitTimes = 4000+(int) (Math.random()*1200);
         AutoUtil.sleep(waitTimes);
-        AccessibilityNodeInfo nodeInfo2 = AutoUtil.findNodeInfosById(node,"com.tencent.mm:id/cp7");
-        //AccessibilityNodeInfo nodeInfo2 = node.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/cp7").get(0);
+        AccessibilityNodeInfo nodeInfo2 = AutoUtil.findNodeInfosById(node,"com.tencent.mm:id/csl");//listView
         if(nodeInfo2!=null){
             nodeInfo2.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
         }

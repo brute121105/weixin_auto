@@ -8,3 +8,6 @@
     android:canRequestFilterKeyEvents="true"
     android:packageNames="com.tencent.mm"
     />
+
+<!--
+    typeNotificationStateChanged|typeWindowContentChanged|typeWindowStateChanged|typeViewScrolled-->

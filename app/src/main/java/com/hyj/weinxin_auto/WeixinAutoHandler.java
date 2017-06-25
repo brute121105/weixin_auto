@@ -18,6 +18,8 @@ public class WeixinAutoHandler {
     public static boolean IS_AUTO_LOGIN=false;
     //自动聊天
     public static boolean IS_AUTO_CHAT=false;
+    //自动聊天1
+    public static boolean IS_AUTO_CHAT1=false;
     //自动发朋友圈
     public static boolean IS_AUTO_SENDFRMSG=false;
     //自动添加好友
