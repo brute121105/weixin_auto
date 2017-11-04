@@ -2,6 +2,7 @@ package com.hyj.weinxin_auto;
 
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.alibaba.fastjson.JSON;
 import com.hyj.weinxin_auto.model.NodeAttr;
 
 import java.util.ArrayList;
@@ -114,5 +115,14 @@ public class ParseRootUtil {
             }
         }
         return root;
+    }
+    public static void debugRoot(AccessibilityNodeInfo root){
+        List<List<NodeAttr>> treeNodes =  ParseRootUtil.createLevelNodes(root);
+
+            for(List<NodeAttr> levelNodes :treeNodes){
+                for(NodeAttr levelNode:levelNodes){
+                    System.out.println("debug--->"+ JSON.toJSON(levelNode));
+                }
+            }
     }
 }
