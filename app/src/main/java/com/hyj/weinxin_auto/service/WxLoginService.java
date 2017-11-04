@@ -73,7 +73,8 @@ public class WxLoginService {
         if(AutoUtil.checkAction(record,Constants.LOGIN_ACTION_05)){
             List<AccessibilityNodeInfo> userNode =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/bfm");
             if(userNode!=null&&userNode.size()==1){
-                AutoUtil.performSetText(userNode.get(0).getChild(1),accounts.get(accountIndex)[0],record,Constants.LOGIN_ACTION_06);
+                String username = accounts.get(accountIndex)[0];
+                AutoUtil.performSetText(userNode.get(0).getChild(1),username,record,Constants.LOGIN_ACTION_06);
             }
             List<AccessibilityNodeInfo> pwdNode =  nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/bfn");
             if(pwdNode!=null&&pwdNode.size()==1){
@@ -82,7 +83,11 @@ public class WxLoginService {
             AutoUtil.sleep(500);
             AccessibilityNodeInfo loginBtn = AutoUtil.findNodeInfosById(nodeInfo,"com.tencent.mm:id/bfo");
             AutoUtil.performClick(loginBtn,record,Constants.LOGIN_ACTION_08);
-            accountIndex = accountIndex+1;
+            if(accounts.size()-1==accountIndex){
+                accountIndex = 0;
+            }else {
+                accountIndex = accountIndex+1;
+            }
             AutoUtil.recordAndLog(record,Constants.CHAT_LISTENING);
         }
     }

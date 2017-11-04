@@ -12,12 +12,14 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.alibaba.fastjson.JSON;
 import com.hyj.weinxin_auto.common.Constants;
+import com.hyj.weinxin_auto.model.NodeAttr;
 import com.hyj.weinxin_auto.service.WxAddFriendService;
 import com.hyj.weinxin_auto.service.WxAutoChatService;
 import com.hyj.weinxin_auto.service.WxChatService;
 import com.hyj.weinxin_auto.service.WxFetchFrDataService;
 import com.hyj.weinxin_auto.service.WxLoginService;
 import com.hyj.weinxin_auto.service.WxSendFrMsgService;
+import com.hyj.weinxin_auto.thread.AutoThread;
 import com.hyj.weinxin_auto.util.AutoUtil;
 import com.hyj.weinxin_auto.util.LogUtil;
 
@@ -47,7 +49,7 @@ public class WeixinAutoService extends AccessibilityService {
             LogUtil.d("nodeInfo2",nodeInfo+"");
             return;
         }
-        if(handler.IS_AUTO_ADDFR)
+        /*if(handler.IS_AUTO_ADDFR)
             addFr.autoAddFriend(event,nodeInfo,WeixinAutoService.this,record);
         if(handler.IS_AUTO_FETCHDATA)
             fetchFrData.autoFetchFrData(event,nodeInfo,WeixinAutoService.this,record);
@@ -57,10 +59,25 @@ public class WeixinAutoService extends AccessibilityService {
             //chat.autoChat(event,nodeInfo,WeixinAutoService.this,record);
             autoChatService.autoChat(event,nodeInfo,WeixinAutoService.this,record);
         if(handler.IS_AUTO_SENDFRMSG)
-            wSendFrMsg.autoSendFrMsg(event,nodeInfo,WeixinAutoService.this,record);
+            wSendFrMsg.autoSendFrMsg(event,nodeInfo,WeixinAutoService.this,record);*/
+
+      /*  List<List<NodeAttr>> treeNodes =  ParseRootUtil.createTreeNodes(nodeInfo);
+        ParseRootUtil.parseTreeNode(treeNodes);
+
+        for(List<NodeAttr> levelNodes :treeNodes){
+            for(NodeAttr levelNode:levelNodes){
+                System.out.println("--->"+JSON.toJSON(levelNode));
+            }
+        }*/
     }
     @Override
     public void onInterrupt() {
 
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        super.onServiceConnected();
+        new Thread(new AutoThread(this)).start();
     }
 }
